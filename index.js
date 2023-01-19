@@ -1,5 +1,6 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
+const markdown = require('./generateMarkdown');
 const fs = require('fs');
 
 // // TODO: Create an array of questions for user input
@@ -77,17 +78,15 @@ inquirer
       type: 'list',
       message: 'What kind of license should your project have? (Use arrow keys)',
       name: 'license',
-      choices: ['None', 'Academic Free License v3.0', 'Apache license 2.0', 'Artistic license 2.0', 'Boost Software License 1.0', 
-      'BSD 2-clause "Simplified" license', 'BSD 3-clause "New" or "Revised" license', 'BSD 3-clause Clear license', 
-      'Creative Commons license family', 'Creative Commons Zero v1.0 Universal', 'Creative Commons Attribution 4.0', 
-      'Creative Commons Attribution Share Alike 4.0', 'Do What The F*ck You Want To Public License	wtfpl', 
-      'Educational Community License v2.0', 'Eclipse Public License 1.0', 'Eclipse Public License 2.0', 
-      'European Union Public License 1.1', 'GNU Affero General Public License v3.0', 'GNU General Public License family', 
-      'GNU General Public License v2.0', 'GNU General Public License v3.0', 'GNU Lesser General Public License family', 
-      'GNU Lesser General Public License v2.1', 'GNU Lesser General Public License v3.0', 'ISC', 
-      'LaTeX Project Public License v1.3c', 'Microsoft Public License', 'MIT', 'Mozilla Public License 2.0', 
-      'Open Software License 3.0', 'PostgreSQL License', 'SIL Open Font License 1.1', 
-      'University of Illinois/NCSA Open Source License', 'The Unlicense', 'zLib License'],
+      choices: ['None', 'Academic Free 3.0', 'Adaptive Public 1.0', 'Apache 2.0', 'Artistic 2.0', 'Boost Software 1.0',
+      'BSD 0-clause', 'BSD 1-clause', 'BSD 2-clause','BSD 3-clause', 'Common Development and Distribution 1.0', 
+      'Creative Commons Zero 1.0 Universal', 'Creative Commons Attribution 4.0', 'Creative Commons Attribution Share Alike 4.0',
+      'Eclipse Public 2.0', 'Educational Community 2.0', 'Eiffel Forum 2.0', 'Entessa Public', 'European Union Public 1.2', 'Fair',
+      'Frameworx', 'GNU Affero General Public v3.0', 'GNU General Public 2.0', 'GNU General Public 3.0', 
+      'GNU Lesser General Public 2.1', 'GNU Lesser General Public 3.0', 'Historical Permission Norice and Disclaimer', 'IBM Public',
+      'IPA Font', 'ISC', 'JAM', 'LaTeX Project Public 1.3c', 'Lucent Public 1.02', 'Microsoft Public', 'Microsoft Reciprocal', 'MIT', 
+      'MIT No Attribution', 'Mozilla Public 2.0', 'Non-Profit Open Software 3.0', 'Open Software 3.0', 'PHP 3.01', 'PostgreSQL', 'Python',
+      'SIL Open Font 1.1', 'University of Illinois/NCSA Open Source', 'The Unlicense', 'W3C', 'zLib']
     },    
     {
       type: 'input',
@@ -118,6 +117,10 @@ inquirer
 
     fs.writeFile('README.md', readmePageContent, (err) =>
       err ? console.log(err) : console.log('Successfully created README.md!')
+    );
+
+    fs.appendFile('README.md', generateMarkdown(data.license), (err) =>
+      err ? console.error(err) : console.log('License Markdown added.')
     );
   });
 
