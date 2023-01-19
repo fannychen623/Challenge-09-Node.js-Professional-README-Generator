@@ -1,3 +1,4 @@
+// list of most common licenses, link/source type, and the short identifier (SPDX)
 const licenseList = [
   { name: 'None', type: 'openSource', type: 'openSource', identifier: 'None' },
   { name: 'Academic Free 3.0', type: 'openSource', identifier: 'AFL-3.0' },
@@ -49,24 +50,29 @@ const licenseList = [
   { name: 'zLib', type: 'openSource', identifier: 'Zlib' },
 ];
 
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
+// create link for license badge
 function renderLicenseBadge(license) {
+  // check that the license is not 'None'
   if (license !== 'None') {
+    // modify the string so it is link compatible
     let license1 = license.replace("-", "--");
     let license2 = license1.replace(/ /g, "_");
+    // badges are created with Shields.io
     return licenseBadge = `[![License: ${license2}](https://img.shields.io/badge/License-${license2}-blue.svg)]`;
   } else {
+    // return empty string if no license is selected
     return licenseBadge = 'None';
   };
 };
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
+// create link for license website
 function renderLicenseLink(license) {
+  // check that the license is not 'None'
   if (license !== 'None') {
+    // find the identifier and type of the license based on the name
     const licenseIdentifier = (licenseList.find(list => list.name === license) || {}).identifier;
     const licenseType = (licenseList.find(list => list.name === license) || {}).type;
+    // check the license type to indicate license host site
     if (licenseType === 'openSource') {
       return licenseLink = `(https://opensource.org/licenses/${licenseIdentifier})`;
     }
@@ -74,25 +80,12 @@ function renderLicenseLink(license) {
       return licenseLink = `(https://creativecommons.org/${licenseIdentifier})`;
     }
   } else {
+    // return empty string if no license is selected
     return licenseLink = 'None';
   };
 };
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-// const renderLicenseSection = ({license, licenseLink}) =>
-//   `## License
-
-// This project is released under the [${license}]${licenseLink} license.`
-
-
-// // TODO: Create a function to generate markdown for README
-// function generateMarkdown(data) {
-//   return `# ${data.title}
-
-// `;
-// }
-
+// export the functions to create the link for the badge and the license info site
 module.exports = {
   renderLicenseBadge,
   renderLicenseLink,

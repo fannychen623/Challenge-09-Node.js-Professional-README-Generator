@@ -1,10 +1,8 @@
-// TODO: Include packages needed for this application
+// define packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-// // TODO: Create an array of questions for user input
-// const questions = [];
-
+// template for the README file to be generated
 const generateREADME = ({username, email, title, description, installation, usage, contribution, tests}, licenseMarkdown, licenseInfo) =>
     `# ${title} ${licenseMarkdown}
 
@@ -56,6 +54,8 @@ ${licenseInfo}
 
 If you have any questions about the repo, open an issue or contact me directly at ${email}. You can find more of my work at [${username}](https://github.com/${username}/).`;
 
+// use inquirer to capture user input, launched at initialization
+// must be installed before usage
 inquirer
   .prompt([
     {
@@ -82,6 +82,7 @@ inquirer
       type: 'list',
       message: 'What kind of license should your project have? (Use arrow keys)',
       name: 'license',
+      // list type inquiry, limited to only 1 selection
       choices: ['None', 'Academic Free 3.0', 'Adaptive Public 1.0', 'Apache 2.0', 'Artistic 2.0', 'Boost Software 1.0',
       'BSD 0-clause', 'BSD 1-clause', 'BSD 2-clause','BSD 3-clause', 'Common Development and Distribution 1.0', 
       'Creative Commons Zero 1.0 Universal', 'Creative Commons Attribution 4.0', 'Creative Commons Attribution Share Alike 4.0',
@@ -96,12 +97,14 @@ inquirer
       type: 'input',
       message: 'What command should be run to install dependencies?',
       name: 'installation',
+      // default input unless entered otherwise
       default: 'npm i',
     },
     {
       type: 'input',
       message: 'What command should be run to run test?',
       name: 'tests',
+      // default input unless entered otherwise
       default: 'npm test',
     },
     {
@@ -117,28 +120,25 @@ inquirer
     
   ])
   .then((data) => {
+    // define local package used to generate license markdown
     const markdown = require('./generateMarkdown');
+    // check that a license is selected
     if (data.license !== 'None') {
+      // create the badge link with hyperlink attached
       var licenseMarkdown = markdown.renderLicenseBadge(data.license) + markdown.renderLicenseLink(data.license);
+      // template for the license section of the README file
       var licenseInfo = `This project is released under the [${data.license}]${markdown.renderLicenseLink(data.license)} license.`
     } else {
+      // define as empty string and "None" if no license was selected
       var licenseMarkdown = ''
       var licenseInfo = 'None'
     }
     
+    // populate template for the README file with the data collected
     const readmePageContent = generateREADME(data,licenseMarkdown, licenseInfo);
 
+    // write/create the "sampleREADME.md" file and output message upon completion or error
     fs.writeFile('sampleREADME.md', readmePageContent, (err) =>
       err ? console.log(err) : console.log('Successfully created README.md!')
     );
   });
-
-
-// // TODO: Create a function to write README file
-// function writeToFile(fileName, data) {}
-
-// // TODO: Create a function to initialize app
-// function init() {}
-
-// // Function call to initialize app
-// init();
