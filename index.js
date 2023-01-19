@@ -1,13 +1,12 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-const markdown = require('./generateMarkdown');
 const fs = require('fs');
 
 // // TODO: Create an array of questions for user input
 // const questions = [];
 
-const generateREADME = ({username, email, title, description, installation, tests, usage, contribution}) =>
-    `# ${title}
+const generateREADME = ({username, email, title, description, installation, usage, contribution, tests}, licenseMarkdown, licenseInfo) =>
+    `# ${title} ${licenseMarkdown}
 
 ## Description
 
@@ -22,6 +21,8 @@ ${description}
 * [Contributing](#contributing)
 
 * [Tests](#tests)
+
+* [License](#license)
 
 * [Questions](#questions)
 
@@ -46,6 +47,10 @@ To install necessary dependencies, run the following command:
 \`\`\`
 ${tests}
 \`\`\`
+
+## License
+
+${licenseInfo}
 
 ## Questions
 
@@ -73,7 +78,6 @@ inquirer
       message: 'Please write a short description of your project',
       name: 'description',
     },
-
     {
       type: 'list',
       message: 'What kind of license should your project have? (Use arrow keys)',
@@ -113,14 +117,19 @@ inquirer
     
   ])
   .then((data) => {
-    const readmePageContent = generateREADME(data);
+    const markdown = require('./generateMarkdown');
+    if (data.license !== 'None') {
+      var licenseMarkdown = markdown.renderLicenseBadge(data.license) + markdown.renderLicenseLink(data.license);
+      var licenseInfo = `This project is released under the [${data.license}]${markdown.renderLicenseLink(data.license)} license.`
+    } else {
+      var licenseMarkdown = ''
+      var licenseInfo = 'None'
+    }
+    
+    const readmePageContent = generateREADME(data,licenseMarkdown, licenseInfo);
 
-    fs.writeFile('README.md', readmePageContent, (err) =>
+    fs.writeFile('sampleREADME.md', readmePageContent, (err) =>
       err ? console.log(err) : console.log('Successfully created README.md!')
-    );
-
-    fs.appendFile('README.md', generateMarkdown(data.license), (err) =>
-      err ? console.error(err) : console.log('License Markdown added.')
     );
   });
 

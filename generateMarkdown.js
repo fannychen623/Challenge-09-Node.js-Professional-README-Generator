@@ -54,10 +54,10 @@ const licenseList = [
 function renderLicenseBadge(license) {
   if (license !== 'None') {
     let license1 = license.replace("-", "--");
-    let license2 = license1.replace(" ", "_");
+    let license2 = license1.replace(/ /g, "_");
     return licenseBadge = `[![License: ${license2}](https://img.shields.io/badge/License-${license2}-blue.svg)]`;
   } else {
-      return licenseBadge = 'None';
+    return licenseBadge = 'None';
   };
 };
 
@@ -66,23 +66,24 @@ function renderLicenseBadge(license) {
 function renderLicenseLink(license) {
   if (license !== 'None') {
     const licenseIdentifier = (licenseList.find(list => list.name === license) || {}).identifier;
-      if ((licenseList.find(list => list.name === license) || {}).type === 'openSouce') {
-        return licenseLink = `(https://opensource.org/licenses/${licenseIdentifier})`;
-      }
-      if ((licenseList.find(list => list.name === license) || {}).type === 'creativeCommons') {
-        return licenseLink = `(https://creativecommons.org/${licenseIdentifier})`;
-      }
+    const licenseType = (licenseList.find(list => list.name === license) || {}).type;
+    if (licenseType === 'openSource') {
+      return licenseLink = `(https://opensource.org/licenses/${licenseIdentifier})`;
+    }
+    if (licenseType === 'creativeCommons') {
+      return licenseLink = `(https://creativecommons.org/${licenseIdentifier})`;
+    }
   } else {
-      return licenseLink = 'None';
+    return licenseLink = 'None';
   };
 };
 
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
-const renderLicenseSection = ({license, licenseLink}) =>
-  `## License
+// const renderLicenseSection = ({license, licenseLink}) =>
+//   `## License
 
-This project is released under the [${license}]${licenseLink} license.`
+// This project is released under the [${license}]${licenseLink} license.`
 
 
 // // TODO: Create a function to generate markdown for README
@@ -92,11 +93,7 @@ This project is released under the [${license}]${licenseLink} license.`
 // `;
 // }
 
-renderLicenseBadge(license);
-renderLicenseLink(license);
-
 module.exports = {
-  licenseBadge,
-  licenseLink,
-  renderLicenseSection
+  renderLicenseBadge,
+  renderLicenseLink,
 };
