@@ -61,7 +61,7 @@ function renderLicenseBadge(license) {
     return licenseBadge = `[![License: ${license2}](https://img.shields.io/badge/License-${license2}-blue.svg)]`;
   } else {
     // return empty string if no license is selected
-    return licenseBadge = 'None';
+    return licenseBadge = ' ';
   };
 };
 
@@ -81,7 +81,7 @@ function renderLicenseLink(license) {
     }
   } else {
     // return empty string if no license is selected
-    return licenseLink = 'None';
+    return licenseLink = ' ';
   };
 };
 
