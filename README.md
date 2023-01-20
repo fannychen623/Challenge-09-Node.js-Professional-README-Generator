@@ -104,5 +104,5 @@ THEN I am taken to the corresponding section of the README
 
 ## **APPLICATION SAMPLE FILE**
 ### Sample README file
->![Sample README file](./assets/Professional-README-Generator_sampleREADME.md%20at%20main%20%C2%B7%20fannychen623_Challenge-09-Node.js-Professional-README-Generator.png "Sample README file")
+>![Sample README file](./assets/Professional-README-Generator_sampleREADME.png "Sample README file")
 >![Sample README file](./assets/sampleREADME.png "Sample README file")
